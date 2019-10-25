@@ -8,7 +8,7 @@ FROM ubuntu:18.04
 
 # Install multiverse
 RUN apt-get update && \
-  apt-get install software-properties-common && \
+  apt-get install -y software-properties-common && \
   apt-get update && \
   add-apt-repository multiverse && \
   dpkg --add-architecture i386

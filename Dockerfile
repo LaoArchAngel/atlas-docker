@@ -7,7 +7,10 @@ FROM ubuntu:18.04
 ## && adduser -u $ARK_UID -s /bin/bash -U steam
 
 # Install multiverse
-RUN add-apt-repository multiverse && \
+RUN apt-get update && \
+  apt-get install software-properties-common && \
+  apt-get update && \
+  add-apt-repository multiverse && \
   dpkg --add-architecture i386
  
 # Install dependencies 

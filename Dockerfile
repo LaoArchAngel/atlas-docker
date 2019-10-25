@@ -15,14 +15,17 @@ RUN adduser \
 	--shell /bin/bash \ 
 	--gecos "" \ 
 	steam
+
 # Add to sudo group
 RUN usermod -a -G sudo steam
 
-# Copy & rights to folders
+# Install atlas-server-tools
 RUN curl -sL http://git.io/fh4HA | sudo bash -s steam
-RUN  mkdir /atlas
-  && mkdir /atlas/logs
-  && chown steam /atlas
+
+# Copy & rights to folders
+RUN  mkdir /atlas \
+  && mkdir /atlas/logs \
+  && chown steam /atlas \
   && chmod -R 755 /atlas
 
 # RCon ports

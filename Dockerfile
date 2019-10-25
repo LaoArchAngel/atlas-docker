@@ -8,14 +8,14 @@ FROM ubuntu:18.04
 
 # Install multiverse
 RUN apt-get update && \
-  apt-get install -y software-properties-common debconf-utils && \
+  apt-get install -y software-properties-common debconf-utils apt-utils debconf-i18n sudo && \
   apt-get update && \
   add-apt-repository multiverse && \
   dpkg --add-architecture i386
 
 # Seed steam auto-accept
-RUN echo 'steamcmd steamcmd/question select "I AGREE"' | debconf-set-selections
-#RUN echo steamcmd steamcmd/license note '' | sudo debconf-set-selections
+RUN echo 'steamcmd steam/question select I AGREE' | debconf-set-selections
+RUN echo 'steamcmd steam/license note ""' | debconf-set-selections
  
 # Install dependencies 
 RUN apt-get update &&\ 

@@ -1,21 +1,5 @@
 FROM ubuntu:18.04
-# MAINTAINER jvleeuwen
-
-# Var for first config
-ENV SESSIONNAME="Ark Docker" \
-    SERVERMAP="TheIsland" \
-    SERVERPASSWORD="" \
-    ADMINPASSWORD="adminpassword" \
-    MAX_PLAYERS=70 \
-    UPDATEONSTART=1 \
-    BACKUPONSTART=1 \
-    SERVERPORT=27015 \
-    STEAMPORT=7777 \
-    BACKUPONSTOP=1 \
-    WARNONSTOP=1 \
-    ARK_UID=1000 \
-    ARK_GID=1000 \
-    TZ=UTC
+# MAINTAINER LaoArchAngel
 
 ## Install dependencies
 ##RUN yum -y install glibc.i686 libstdc++.i686 git lsof bzip2 cronie perl-Compress-Zlib \
@@ -24,7 +8,7 @@ ENV SESSIONNAME="Ark Docker" \
  
 # Install dependencies 
 RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git cron
+    apt-get install -y curl lib32gcc1 lsof git cron 
     
 RUN adduser \ 
 	--disabled-login \ 

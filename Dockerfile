@@ -12,6 +12,10 @@ RUN apt-get update && \
   apt-get update && \
   add-apt-repository multiverse && \
   dpkg --add-architecture i386
+
+# Seed steam auto-accept
+RUN echo steam steam/question select "I AGREE" | sudo debconf-set-selections
+RUN echo steam steam/license note '' | sudo debconf-set-selections
  
 # Install dependencies 
 RUN apt-get update &&\ 

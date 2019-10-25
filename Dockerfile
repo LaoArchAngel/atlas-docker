@@ -8,7 +8,7 @@ FROM ubuntu:18.04
  
 # Install dependencies 
 RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git cron 
+    apt-get install -y curl lib32gcc1 lsof git cron libidn11 steamcmd redis-server jq
     
 RUN adduser \ 
 	--disabled-login \ 
@@ -19,38 +19,28 @@ RUN adduser \
 RUN usermod -a -G sudo steam
 
 # Copy & rights to folders
-COPY run.sh /home/steam/run.sh
-COPY user.sh /home/steam/user.sh
-COPY crontab /home/steam/crontab
-COPY arkmanager-user.cfg /home/steam/arkmanager.cfg
+RUN curl -sL http://git.io/fh4HA | sudo bash -s steam
+RUN  mkdir /atlas
+  && mkdir /atlas/logs
+  && chown steam /atlas
+  && chmod -R 755 /atlas
 
-RUN chmod 777 /home/steam/run.sh \
- && chmod 777 /home/steam/user.sh \
- ## Always get the latest version of ark-server-tools
- && git clone -b $(git ls-remote --tags https://github.com/FezVrasta/ark-server-tools.git | awk '{print $2}' | grep -v '{}' | awk -F"/" '{print $3}' | tail -n 1) --single-branch --depth 1 https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools \
- && cd /home/steam/ark-server-tools/tools \
- && bash install.sh steam --bindir=/usr/bin \
- && (crontab -l 2>/dev/null; echo "* 3 * * Mon yes | arkmanager upgrade-tools >> /ark/log/arkmanager-upgrade.log 2>&1") | crontab - \
- && mkdir /ark \
- && chown steam /ark && chmod 755 /ark \
- && mkdir /home/steam/steamcmd \
- && cd /home/steam/steamcmd \
- && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
+# RCon ports
+EXPOSE 32350-32375
 
-# Define default config file in /etc/arkmanager
-COPY arkmanager-system.cfg /etc/arkmanager/arkmanager.cfg
+# Game Ports
+EXPOSE 57525-57575 57525-57575/udp
 
-# Define default config file in /etc/arkmanager
-COPY instance.cfg /etc/arkmanager/instances/main.cfg
+# Query Ports
+EXPOSE 5750-5775 5750:5775/udp
 
-EXPOSE ${STEAMPORT} 32330 ${SERVERPORT}
-# Add UDP
-EXPOSE ${STEAMPORT}/udp ${SERVERPORT}/udp
+# Seamless Ports
+EXPOSE 27000-27025 27000-27025/udp
 
-VOLUME  /ark
+#VOLUME  /atlas/server/ShooterGame/Saves
 
 # Change the working directory to /ark
-WORKDIR /ark
+WORKDIR /atlas
 
 # Update game launch the game.
-ENTRYPOINT ["/home/steam/user.sh"]
+ENTRYPOINT ["/bin/bash"]

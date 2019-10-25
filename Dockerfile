@@ -5,6 +5,10 @@ FROM ubuntu:18.04
 ##RUN yum -y install glibc.i686 libstdc++.i686 git lsof bzip2 cronie perl-Compress-Zlib \
 ## && yum clean all \
 ## && adduser -u $ARK_UID -s /bin/bash -U steam
+
+# Install multiverse
+RUN add-apt-repository multiverse && \
+  dpkg --add-architecture i386
  
 # Install dependencies 
 RUN apt-get update &&\ 

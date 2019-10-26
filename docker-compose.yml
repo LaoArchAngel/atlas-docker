@@ -1,11 +1,33 @@
-atlas:
-  container_name: atlas
-  build: .
-  ports:
-   - "32350-32375:32350-32375"
-   - "57525-57575:57525-57575"
-   - "57525-57575:57525-57575/udp"
-   - "5750-5775:5750-5775"
-   - "5750-5775:5750-5775/udp"
-   - "27000-27025"
-   - "27000-27025/udp"
+version: "3.7"
+services:
+  atlas:
+    container_name: atlas
+    build: .
+    networks:
+      - atlas-net
+    ports:
+      - "32350-32375:32350-32375"
+      - "57525-57575:57525-57575"
+      - "57525-57575:57525-57575/udp"
+      - "5750-5775:5750-5775"
+      - "5750-5775:5750-5775/udp"
+      - "27000-27025"
+      - "27000-27025/udp"
+    volumes:
+      - ~/atlas-data:/atlas/server/ShooterGame/Saved
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: atlasredis
+    networks: 
+      - atlas-net
+    volumes:
+      - atlas-data:/data
+
+networks:
+  atlas-net:
+
+volumes:
+  atlas-data:

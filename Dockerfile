@@ -59,6 +59,11 @@ VOLUME /atlas/server/ShooterGame/Saved
 # Change the working directory to /ark
 WORKDIR /atlas
 
+# Create a steam-owned atlasmanager config
+RUN cp /etc/atlasmanager/atlasmanager.cfg . \
+ && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
+ && echo "source /atlas/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
+
 USER steam
 
 # Update game launch the game.

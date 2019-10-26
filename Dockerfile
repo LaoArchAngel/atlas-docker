@@ -1,9 +1,4 @@
-FROM ubuntu:18.04
-
-## Install dependencies
-##RUN yum -y install glibc.i686 libstdc++.i686 git lsof bzip2 cronie perl-Compress-Zlib \
-## && yum clean all \
-## && adduser -u $ARK_UID -s /bin/bash -U steam
+FROM ubuntu:latest
 
 # Install multiverse
 RUN apt-get update && \
@@ -56,18 +51,28 @@ EXPOSE 27050-27075 27050-27075/udp
 
 VOLUME /atlas/server/ShooterGame/Saved
 
-# Change the working directory to /ark
+VOLUME /atlas/config
+
+# Change the working directory to /atlas
 WORKDIR /atlas
 
 # Create a steam-owned atlasmanager config
-RUN cp /etc/atlasmanager/atlasmanager.cfg . \
+RUN mkdir /atlas/config \
+ && cp /etc/atlasmanager/atlasmanager.cfg /atlas/config \
  && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
- && echo "source /atlas/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
+ && echo "source /atlas/config/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
 
 # Point settings to atlas folder
-RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/atlasmanager.cfg \
-  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /atlas/atlasmanager.cfg \
-  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/atlasmanager.cfg
+RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/config/atlasmanager.cfg \
+  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /atlas/config/atlasmanager.cfg \
+  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/config/atlasmanager.cfg
+
+# Move instance configs to atlas folder
+RUN cp -Ra /etc/atlasmanager/instances /atlas/config \
+  && rm -Rf /etc/atlasmanager/instances \
+  && ln -s /atlas/config/instances /etc/atlasmanager/instances
+
+RUN chown -R steam:steam /atlas
 
 USER steam
 

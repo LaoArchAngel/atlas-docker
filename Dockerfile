@@ -38,7 +38,7 @@ RUN  mkdir /atlas \
   && chown steam /atlas \
   && chmod -R 755 /atlas
 
-COPY --chown=steam:steam ./entrypoint.sh /home/steam/entrypoint.sh
+COPY --chown=steam:steam entrypoint.sh /home/steam/entrypoint.sh
 
 # RCon ports
 EXPOSE 32350-32375

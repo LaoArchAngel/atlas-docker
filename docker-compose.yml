@@ -1,6 +1,6 @@
 atlas:
   container_name: atlas
-  image: atlas-docker
+  build: .
   ports:
    - "32350-32375:32350-32375"
    - "57525-57575:57525-57575"

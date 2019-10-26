@@ -1,5 +1,8 @@
 #!/bin/sh
 
+[ -p /tmp/FIFO ] && rm /tmp/FIFO
+mkfifo /tmp/FIFO
+
 # USE the trap if you need to also do manual cleanup after the service is stopped,
 #     or need to start multiple services in the one container
 trap stop INT

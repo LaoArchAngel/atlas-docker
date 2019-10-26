@@ -40,6 +40,8 @@ RUN  mkdir /atlas \
 
 COPY --chown=steam:steam entrypoint.sh /home/steam/entrypoint.sh
 
+RUN chmod +x /home/steam/entrypoint.sh
+
 # RCon ports
 EXPOSE 32350-32375
 
@@ -56,6 +58,8 @@ VOLUME /atlas/server/ShooterGame/Saved
 
 # Change the working directory to /ark
 WORKDIR /atlas
+
+USER steam
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/entrypoint.sh"]

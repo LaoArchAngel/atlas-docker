@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --no-cache -t atlasdocker .
+docker build --no-cache -t atlas-docker .

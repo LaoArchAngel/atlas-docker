@@ -1,5 +1,4 @@
 FROM ubuntu:18.04
-# MAINTAINER LaoArchAngel
 
 ## Install dependencies
 ##RUN yum -y install glibc.i686 libstdc++.i686 git lsof bzip2 cronie perl-Compress-Zlib \

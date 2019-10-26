@@ -51,7 +51,7 @@ EXPOSE 5750-5775 5750-5775/udp
 # Seamless Ports
 EXPOSE 27000-27025 27000-27025/udp
 
-#VOLUME  /atlas/server/ShooterGame/Saves
+VOLUME /atlas/server/ShooterGame/Saved
 
 # Change the working directory to /ark
 WORKDIR /atlas

@@ -64,6 +64,11 @@ RUN cp /etc/atlasmanager/atlasmanager.cfg . \
  && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
  && echo "source /atlas/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
 
+# Point settings to atlas folder
+RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/atlasmanager.cfg \
+  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /atlas/atlasmanager.cfg \
+  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/atlasmanager.cfg
+
 USER steam
 
 # Update game launch the game.

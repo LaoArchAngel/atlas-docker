@@ -80,7 +80,7 @@ RUN chown -R steam:steam /atlas \
   && chown -R root:steam /etc/atlasmanager \
   && chmod 764 -R /etc/atlasmanager
 
-USER steam
+USER steam:steam
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/entrypoint.sh"]

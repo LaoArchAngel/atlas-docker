@@ -35,6 +35,7 @@ RUN curl -sL http://git.io/fh4HA | sudo bash -s steam
 # Copy & rights to folders
 RUN  mkdir /atlas \
   && mkdir /atlas/logs \
+  && mkdir /atlas/backup \
   && chown steam /atlas \
   && chmod -R 755 /atlas
 
@@ -54,7 +55,7 @@ EXPOSE 5750-5775 5750-5775/udp
 # Seamless Ports
 EXPOSE 27050-27075 27050-27075/udp
 
-VOLUME [ "/atlas/server/ShooterGame/Saved", "/atlas/config", "/etc/atlasmanager/instances" ]
+VOLUME [ "/atlas/config", "/etc/atlasmanager/instances" ]
 
 # Change the working directory to /atlas
 WORKDIR /atlas

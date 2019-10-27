@@ -10,7 +10,7 @@ trap stop TERM
 
 # Copy over default config files
 [ ! -f /atlas/config/atlasmanager.cfg ] && cp /atlas/staging/atlasmanager.cfg /atlas/config/atlasmanager.cfg
-[ ! "$(ls -A /etc/atlasmanager/instances)" ] && cp -Ra /atlas/staging/instances /etc/atlasmanager/instances
+[ ! "$(ls -A /etc/atlasmanager/instances)" ] && cp -Ra /atlas/staging/instances /etc/atlasmanager
 
 # TODO: Start server here
 

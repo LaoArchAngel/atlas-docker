@@ -80,5 +80,7 @@ RUN chown -R steam:steam /atlas \
 
 USER steam:steam
 
+RUN atlasmanager install @main
+
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/entrypoint.sh"]

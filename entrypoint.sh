@@ -8,6 +8,10 @@ mkfifo /tmp/FIFO
 trap stop INT
 trap stop TERM
 
+# Copy over default config files
+[ ! -f /atlas/config/atlasmanager.cfg ] && cp /atlas/staging/atlasmanager.cfg /atlas/config/atlasmanager.cfg
+[ ! "$(ls -A /atlas/config/instances)" ] && cp -Ra /atlas/staging/instances /atlas/config
+
 # TODO: Start server here
 
 # TODO: Ensure cron is running

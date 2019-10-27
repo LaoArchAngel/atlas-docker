@@ -58,7 +58,9 @@ WORKDIR /atlas
 
 # Create a steam-owned atlasmanager config
 RUN mkdir /atlas/config \
- && cp /etc/atlasmanager/atlasmanager.cfg /atlas/config \
+ && mkdir /atlas/staging \
+ && mkdir /atlas/config/instances \
+ && cp /etc/atlasmanager/atlasmanager.cfg /atlas/staging \
  && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
  && echo "source /atlas/config/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
 
@@ -68,11 +70,13 @@ RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/conf
   && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/config/atlasmanager.cfg
 
 # Move instance configs to atlas folder
-RUN cp -Ra /etc/atlasmanager/instances /atlas/config \
+RUN cp -Ra /etc/atlasmanager/instances /atlas/staging \
   && rm -Rf /etc/atlasmanager/instances \
   && ln -s /atlas/config/instances /etc/atlasmanager/instances
 
-RUN chown -R steam:steam /atlas
+RUN chown -R steam:steam /atlas \
+  && chown -R root:steam /etc/atlasmanager \
+  && chmod 764 -R /etc/atlasmanager
 
 USER steam
 

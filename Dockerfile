@@ -69,7 +69,6 @@ RUN atlasmanager install @main
 
 # Create a steam-owned atlasmanager config
 RUN mkdir /atlas/staging \
- && mkdir /atlas/config/instances \
  && cp /etc/atlasmanager/atlasmanager.cfg /atlas/staging \
  && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
  && echo "source /atlas/config/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg

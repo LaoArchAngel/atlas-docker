@@ -67,9 +67,9 @@ RUN mkdir /atlas/staging \
  && echo "source /atlas/config/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
 
 # Point settings to atlas folder
-RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/config/atlasmanager.cfg \
-  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /atlas/config/atlasmanager.cfg \
-  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/config/atlasmanager.cfg
+RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/staging/atlasmanager.cfg \
+  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /atlas/staging/atlasmanager.cfg \
+  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/staging/atlasmanager.cfg
 
 # Move instance configs to atlas folder
 RUN cp -Ra /etc/atlasmanager/instances /atlas/staging \

@@ -1,5 +1,7 @@
 FROM ubuntu:latest
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # Install apt-utils first
 RUN apt-get update && apt-get install -y apt-utils
 
@@ -52,9 +54,7 @@ EXPOSE 5750-5775 5750-5775/udp
 # Seamless Ports
 EXPOSE 27050-27075 27050-27075/udp
 
-VOLUME /atlas/server/ShooterGame/Saved
-
-VOLUME /atlas/config
+VOLUME [ "/atlas/server/ShooterGame/Saved", "/atlas/config", "/etc/atlasmanager/instances" ]
 
 # Change the working directory to /atlas
 WORKDIR /atlas
@@ -72,13 +72,11 @@ RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/stag
   && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/staging/atlasmanager.cfg
 
 # Move instance configs to atlas folder
-RUN cp -Ra /etc/atlasmanager/instances /atlas/staging \
-  && rm -Rf /etc/atlasmanager/instances \
-  && ln -s /atlas/config/instances /etc/atlasmanager/instances
+RUN cp -Ra /etc/atlasmanager/instances /atlas/staging
 
 RUN chown -R steam:steam /atlas \
   && chown -R root:steam /etc/atlasmanager \
-  && chmod 764 -R /etc/atlasmanager
+  && chmod 774 -R /etc/atlasmanager
 
 USER steam:steam
 

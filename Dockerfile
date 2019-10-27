@@ -1,9 +1,11 @@
 FROM ubuntu:latest
 
+# Install apt-utils first
+RUN apt-get update && apt-get install -y apt-utils
+
 # Install multiverse
-RUN apt-get update && \
-  apt-get upgrade -y && \
-  apt-get install -y software-properties-common debconf-utils apt-utils debconf-i18n sudo && \
+RUN apt-get upgrade -y && \
+  apt-get install -y software-properties-common debconf-utils debconf-i18n sudo && \
   apt-get update && \
   add-apt-repository multiverse && \
   dpkg --add-architecture i386

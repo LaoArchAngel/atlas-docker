@@ -6,11 +6,11 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y apt-utils
 
 # Install multiverse
-RUN apt-get upgrade -y && \
-  apt-get install -y software-properties-common debconf-utils debconf-i18n sudo && \
-  apt-get update && \
-  add-apt-repository multiverse && \
-  dpkg --add-architecture i386
+RUN apt-get upgrade -y \
+  && apt-get install -y software-properties-common debconf-utils debconf-i18n sudo \
+  && apt-get update \
+  && add-apt-repository multiverse \
+  && dpkg --add-architecture i386
 
 # Seed steam auto-accept
 RUN echo 'steamcmd steam/question select I AGREE' | debconf-set-selections
@@ -66,18 +66,18 @@ RUN chown -R steam:steam /atlas \
 
 USER steam:steam
 
+# Point settings to atlas folder
+RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /etc/atlasmanager/atlasmanager.cfg \
+  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /etc/atlasmanager/atlasmanager.cfg \
+  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /etc/atlasmanager/atlasmanager.cfg
+
 RUN atlasmanager install @main
 
 # Create a steam-owned atlasmanager config
 RUN mkdir /atlas/staging \
- && cp /etc/atlasmanager/atlasmanager.cfg /atlas/staging \
- && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
- && echo "source /atlas/config/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
-
-# Point settings to atlas folder
-RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/staging/atlasmanager.cfg \
-  && sed -i 's/atlasbackupdir=.*/atlasbackupdir="\/atlas\/backup"/' /atlas/staging/atlasmanager.cfg \
-  && sed -i 's/^#\?atlasStagingDir=.*/atlasStagingDir="\/atlas\/staging"/' /atlas/staging/atlasmanager.cfg
+  && cp /etc/atlasmanager/atlasmanager.cfg /atlas/staging \
+  && echo "" >> /etc/atlasmanager/atlasmanager.cfg \
+  && echo "source /atlas/config/atlasmanager.cfg" >> /etc/atlasmanager/atlasmanager.cfg
 
 # Move instance configs to atlas folder
 RUN cp -Ra /etc/atlasmanager/instances /atlas/staging

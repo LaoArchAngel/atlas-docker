@@ -2,6 +2,7 @@ FROM ubuntu:latest
 
 # Install multiverse
 RUN apt-get update && \
+  apt-get upgrade -y && \
   apt-get install -y software-properties-common debconf-utils apt-utils debconf-i18n sudo && \
   apt-get update && \
   add-apt-repository multiverse && \
@@ -57,8 +58,7 @@ VOLUME /atlas/config
 WORKDIR /atlas
 
 # Create a steam-owned atlasmanager config
-RUN mkdir /atlas/config \
- && mkdir /atlas/staging \
+RUN mkdir /atlas/staging \
  && mkdir /atlas/config/instances \
  && cp /etc/atlasmanager/atlasmanager.cfg /atlas/staging \
  && echo "" >> /etc/atlasmanager/atlasmanager.cfg \

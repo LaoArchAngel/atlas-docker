@@ -59,6 +59,14 @@ VOLUME [ "/atlas/server/ShooterGame/Saved", "/atlas/config", "/etc/atlasmanager/
 # Change the working directory to /atlas
 WORKDIR /atlas
 
+RUN chown -R steam:steam /atlas \
+  && chown -R root:steam /etc/atlasmanager \
+  && chmod 774 -R /etc/atlasmanager
+
+USER steam:steam
+
+RUN atlasmanager install @main
+
 # Create a steam-owned atlasmanager config
 RUN mkdir /atlas/staging \
  && mkdir /atlas/config/instances \
@@ -73,14 +81,6 @@ RUN sed -i 's/atlasserverroot=.*/atlasserverroot="\/atlas\/server"/' /atlas/stag
 
 # Move instance configs to atlas folder
 RUN cp -Ra /etc/atlasmanager/instances /atlas/staging
-
-RUN chown -R steam:steam /atlas \
-  && chown -R root:steam /etc/atlasmanager \
-  && chmod 774 -R /etc/atlasmanager
-
-USER steam:steam
-
-RUN atlasmanager install @main
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/entrypoint.sh"]
